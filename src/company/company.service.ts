@@ -9,7 +9,7 @@ import { Model } from 'mongoose';
 export class CompanyService {
   constructor(@InjectModel(Company.name) private companyModel:Model<Company>){}
 async  create(createCompanyDto: CreateCompanyDto) {
-  const company =await this.companyModel.create(createCompanyDto)
+  const company = await this.companyModel.create(createCompanyDto)
     return company
   }
 
@@ -24,7 +24,7 @@ async  findOne(id: string) {
   }
 
   async findOneByEmail(email:string){
-    const company = await this.companyModel.findOne({email:email})
+    const company = await this.companyModel.findOne({email:email}).select("+password")
     return company
   }
 
