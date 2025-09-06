@@ -8,14 +8,14 @@ export class Company {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true,select:false })
   password: string;
 
 
   @Prop({ required: true })
   country: string;
 
- @Prop({ required: true,enum:["finance","e-commerce","healthCare","ohter"] })
+ @Prop({ required: true,enum:["finance","e-commerce","healthCare","other"] })
   industry: string;
 
   @Prop({default:false})

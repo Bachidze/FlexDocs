@@ -37,6 +37,11 @@ async signIn (signInDto:SignInDTO){
             const accessToken  = this.jwtService.sign(payLoad,{expiresIn:"1h"})
 
             return {accessToken}
-}
+  }
+
+  async getCurrentUser(userId:string){
+    const user = await this.companyService.findOne(userId)
+    return user
+  }
 
 }
