@@ -12,6 +12,7 @@ async canActivate(context: ExecutionContext):  Promise<boolean> {
         try {
             const payLoad = await this.jwtService.verify(token)
             request.userId = payLoad.userId
+            request.role = payLoad.role
         } catch (error) {
            throw new UnauthorizedException()
         }
@@ -19,7 +20,7 @@ async canActivate(context: ExecutionContext):  Promise<boolean> {
      return true
  }
 
- getToken(headers){
+ getToken(headers:string){
     if(!headers["authorization"]) return null
     const [type,token] = headers["authorization"].split(" ")
     return type === "Bearer" ? token : null

@@ -3,6 +3,8 @@ import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { Company } from './decorators/company.decorator';
+import { isAdmin } from 'src/auth/isAdmin.guard';
 
 @Controller('company')
 export class CompanyController {
@@ -10,7 +12,6 @@ export class CompanyController {
 
 
   @Get()
-  @UseGuards(AuthGuard)
   findAll() {
     return this.companyService.findAll();
   }
@@ -21,15 +22,19 @@ export class CompanyController {
   }
   @UseGuards(AuthGuard)
   @Patch()
-  update(@Req() request, @Body() updateCompanyDto: UpdateCompanyDto) {
-     const userId = request.userId
+  update(@Company() userId, @Body() updateCompanyDto: UpdateCompanyDto) {
     return this.companyService.update(userId, updateCompanyDto);
   }
-
+ 
   @UseGuards(AuthGuard)
   @Delete()
-  remove(@Req() request) {
-    const userId = request.userId
+  remove(@Company() userId) {
     return this.companyService.remove(userId);
+  }
+
+  @Delete(":id")
+  @UseGuards(AuthGuard,isAdmin)
+  removeOtherCompany(@Param("id") id){
+    return this.companyService.remove(id)
   }
 }

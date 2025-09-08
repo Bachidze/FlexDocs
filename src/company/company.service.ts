@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Company } from './schema/company.schema';
-import { Model } from 'mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 
 @Injectable()
 export class CompanyService {
@@ -34,6 +34,8 @@ async  update(id: string, updateCompanyDto: UpdateCompanyDto) {
   }
 
 async  remove(id: string) {
+  if(
+    !isValidObjectId(id)) throw new BadGatewayException("invalid id provided")
   const deletedCompany = await this.companyModel.findByIdAndDelete(id)
     return deletedCompany
   }

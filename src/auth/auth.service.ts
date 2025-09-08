@@ -31,7 +31,8 @@ async signIn (signInDto:SignInDTO){
            if(!isPassEqual) throw new BadRequestException("email or password is incorrect")
 
             const payLoad = {
-                userId:exsisting._id
+                userId:exsisting._id,
+                role:exsisting.role
             }
 
             const accessToken  = this.jwtService.sign(payLoad,{expiresIn:"1h"})

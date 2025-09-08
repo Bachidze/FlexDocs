@@ -4,6 +4,7 @@ import { SignUpDTO } from './dto/signup.dto';
 import { SignInDTO } from './dto/signIn.dto';
 import { AuthGuard } from './auth.guard';
 import { request } from 'http';
+import { Company } from 'src/company/decorators/company.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -22,9 +23,8 @@ export class AuthController {
    
    @UseGuards(AuthGuard)
    @Get("/current-user")
-   currentUser(@Req() request){
-    const userId = request.userId
-    const catchUser = this.authService.getCurrentUser(userId)
+  async currentUser(@Company() userId){
+    const catchUser = await this.authService.getCurrentUser(userId)
     return catchUser
    }
 }
